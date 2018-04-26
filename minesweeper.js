@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', startGame)
 
-// Define your `board` object here!
+/* Define your `board` object here!
  var board = {
   cells: [
     {row: 0, col: 0, isMine:false, hidden:true, surroundingMines:0 ,isMarked: false},
@@ -23,19 +23,54 @@ document.addEventListener('DOMContentLoaded', startGame)
  console.log("2-2.Using bracket notation with double quotation: --> board[\"cells\"] \n" + board["cells"])
  console.log("3-1.Using bracket & inded notation: --> board.cells[0] \n"+board.cells[0])
  console.log("3-2.Using bracket & inded notation with double quotation: --> board[\"cells\"][0] \n "+board["cells"][0])
- console.log("4.Accessing detailed property : --> board.cells[0].row \n"+ board.cells[0].row)
+ console.log("4.Accessing detailed property : --> board.cells[0].row \n"+ board.cells[0].row)*/
 
- /*Dynamic create object is testing
- var tmpBoard = {cells: [ {row: 0, col: 0, isMine:false, hidden:true} ] };
-for (var x = 0; x < 9; x++) {
-  tmpBoard["cells"][x] = [{row: x, col: x, isMine:false, hidden:true}]
-  console.log(tmpBoard.cells[x])
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
 }
-console.log("This is another Object: -> tmpBoard"+tmpBoard) ///////////////////*/
+ //Dynamic create object is testing
+var board = { cells:[] }
+var boardCnt = 4 //board basic elements 3 X 3
+
+function createBoard () {
+  
+  for (var i = 0; i < boardCnt; i++){
+      for (var j =0; j < boardCnt; j++){
+      board.cells.push ({row: i ,col: j, isMine: false, hidden: true, surroundingMines:0, isMarked: false })
+    }
+
+    //console.log("Dynamic Object->"+board.cells.length)
+  }
+}
+
+function setMine () {
+  var i = 0
+  var maxMines = 5
+  while (i < maxMines) {   
+    var seqNo = getRandomInt(8)
+    var tmpCnt = 0
+
+    console.log('mine address-->'+seqNo)
+    board.cells[seqNo].isMine = true;
+
+    for (var j = 0; j < boardCnt*boardCnt; j++){
+      if (board.cells[j].isMine == true){
+        tmpCnt++
+      }     
+    }
+ 
+    console.log('total mines-->'+ tmpCnt)
+    i = tmpCnt
+  
+  }
+
+}
 
 
 function startGame () {
-
+  //Dynamic board creation 
+  createBoard()
+  setMine ()
   for (var i = 0; i < board.cells.length; i++){
     var surrounding = countSurroundingMines(board.cells[i]) 
     board.cells[i].surroundingMines = surrounding   
